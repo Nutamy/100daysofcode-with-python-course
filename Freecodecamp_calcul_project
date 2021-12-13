@@ -1,0 +1,104 @@
+# Калькулятор для обработки примеров на сложение и вычитание целочисленных типов данных
+# Примеры подаются в виде списка. Не более 4 шт.
+# Размер числа не превышает 4 цифр
+
+def arithmetic_arranger(list_of_problems):
+
+  # Функция, которая сбрасывает все вычисления. В случае обнаружения ошибки
+    def reset():
+        global line_1, line_2, line_3, line_4
+        line_1 = ''
+        line_2 = ''
+        line_3 = ''
+        line_4 = ''
+        
+    # Проверка количества примеров (не больше 4)
+    not_checked = True
+    while not_checked:
+        if len(list_of_problems) > 4:
+            print('Error: Too many problems.')
+            not_checked = False
+        else:
+            not_checked = False
+    
+            # Создание строк для записи примеров столбиком
+            global line_1, line_2, line_3, line_4
+            line_1 = ''
+            line_2 = ''
+            line_3 = ''
+            line_4 = ''
+
+            # Цикл решения примеров
+            for problem in list_of_problems:
+                # Решение примера на сложение
+                if '+' in problem:
+                    a,b = problem.split('+') # Выделение слагаемых
+                    lenth = len(a)+1 if len(a)>len(b) else len(b)+1 # Определение ширины примера
+                    try:
+                        a,b = int(a),int(b)  # Проверка на отсутствие букв и символов в числах
+                    except:
+                        print('Error: Numbers must only contain digits.')
+                        reset()
+                        break
+
+                    # Проверка размера числа (не больше 4 цифр)
+                    if len(str(a))>4 or len(str(b))>4:
+                        print('Error: Numbers cannot be more than four digits.')
+                        reset()
+                        break
+
+                    # Формирование примера в форме столика
+                    line_1 += ' '*(lenth-len(str(a)))+str(a)+' '*4
+                    line_2 += '+' + ' '*(lenth-len(str(b))-1)+str(b)+' '*4
+                    line_3 += '-'*lenth+' '*4  
+                    c = int(a) + int(b)
+                    line_4 += ' '*(lenth-len(str(c)))+str(c)+' '*4
+
+                # Решение примера на вычетание
+                elif '-' in problem:
+                    a,b = problem.split('-') # Выделение уменьшаемого и вычитаемого
+                    lenth = len(a)+1 if len(a)>len(b) else len(b)+1 # Определение ширины примера
+                    try:
+                        a,b = int(a),int(b) # Проверка на отсутствие букв и символов в числах
+                    except:
+                        print('Error: Numbers must only contain digits.')
+                        reset()
+                        break
+
+                    # Проверка размера числа (не больше 4 цифр)
+                    if len(str(a))>4 or len(str(b))>4:
+                        print('Error: Numbers cannot be more than four digits.')
+                        reset()
+                        break
+
+                    # Формирование примера в форме столика
+                    line_1 += ' '*(lenth-len(str(a)))+str(a)+' '*4
+                    line_2 += '-' + ' '*(lenth-len(str(b))-1)+str(b)+' '*4
+                    line_3 += '-'*lenth+' '*4  
+                    c = int(a) - int(b)
+                    line_4 += ' '*(lenth-len(str(c)))+str(c)+' '*4
+
+                # Обработка случая использования иных знаков кроме + и -
+                else:
+                    print("Error: Operator must be '+' or '-'")
+                    reset()
+                    break
+
+            # Отмена печати примеров, если в каком-то из них ошибка
+            if len(line_1) == 0:
+                pass
+            else:
+                # Печать примеров
+                print(f'{line_1}\n{line_2}\n{line_3}\n{line_4}')
+
+# Тестирование функции   
+arithmetic_arranger(["32 + 698", "4531 - 2", "45 + 43", "123 + 49", "123 + 49"])
+print()
+arithmetic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49"])
+print()
+arithmetic_arranger(["32 + 698", "4531 - 2", "45 + 43", "123 + 445654649"])
+print()
+arithmetic_arranger(["32 + 698", "4531 - 2", "4wer5 + 43", "123 + 49"])
+print()
+arithmetic_arranger(["32 + 698", "4531 / 2", "45 + 43", "123 + 49"])
+print()
