@@ -19,3 +19,4 @@ plotly
 # pytest
 pytest
 pytest-cov
+nbconvert>=7.17.0 # not directly required, pinned by Snyk to avoid a vulnerability
